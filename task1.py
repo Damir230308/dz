@@ -1,2 +1,8 @@
-# dz
-# dz
+a = (type(15 * 3))
+b = (type(15 / 3))
+c = (type(15 // 2))
+d = (type(15 ** 2))
+print(a)
+print(b)
+print(c)
+print(d)
