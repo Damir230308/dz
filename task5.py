@@ -1,0 +1,45 @@
+"""
+Задание 5. На закрепление навыков работы со стеком
+Реализуйте собственный класс-структуру "стопка тарелок".
+Мы можем складывать тарелки в стопку и при превышении некоторого значения
+нужно начать складывать тарелки в новую стопку.
+Структура должна предусматривать наличие нескольких стопок.
+Создание новой стопки происходит при достижении предыдущим
+стеком порогового значения.
+После реализации структуры, проверьте ее работу на различных сценариях.
+Примечание: ПРОШУ ВАС ВНИМАТЕЛЬНО ЧИТАТЬ ЗАДАНИЕ!
+--реализуйте по аналогии с примером, рассмотренным на уроке
+--создание нового стопки можно реализовать добавлением нового пустого массива
+в массив стопок (lst = [[], [], [], [],....]).
+"""
+
+class StackPlates():
+    def __init__(self):
+        self.elems = [[], [], [], []]
+    def appending(self, el):
+        for i in range(0, len(self.elems) - 1, 1):
+            if len(self.elems[i]) < 8:
+                self.elems[i].append(el)
+    def pop_out(self):
+        self.elems.pop()
+    def stack_size(self):
+        return len(self.elems)
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+        self.max = None
+
+    def push(self, item):
+        self.stack.append(item)
+        if len(self.stack) == 1 or item > self.max:
+            self.max = item
+
+if __name__ == '__main__':
+    stack_1 = StackPlates()
+    i = 0
+    while i < 18:
+        stack_1.appending(1+i)
+        i += 1
+
+    print(stack_1.elems)
