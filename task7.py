@@ -21,6 +21,9 @@ class DequeClass:
 
     def size(self):
         return len(self.elems)
+    '''
+    А класс Deque надо было самому делать или нет?
+    '''
 
 def pal_checker(string):
     dc_obj = DequeClass()
