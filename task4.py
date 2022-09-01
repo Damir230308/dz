@@ -7,4 +7,4 @@ try:
     n = int(input("Count of elements: "))
     recur(0, 1, n, 0)
 except ValueError:
-    print("Вы вместо числа ввели строку. Исправьтесь")
+    print("Введите число, а не строку!")
