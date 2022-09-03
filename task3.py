@@ -40,25 +40,21 @@ revers(30)
 revers_2(30)
 revers_3(30)
 my_revers(30)
-print(timeit.timeit("revers(30)", "from __main__ import revers", number=10000))
-print(timeit.timeit("revers_2(30)", "from __main__ import revers_2", number=10000))
-print(timeit.timeit("revers_3(30)", "from __main__ import revers_3", number=10000))
+print(timeit.timeit("revers(30)", "from __main__ import revers", number=1000))
+print(timeit.timeit("revers_2(30)", "from __main__ import revers_2", number=1000))
+print(timeit.timeit("revers_3(30)", "from __main__ import revers_3", number=1000))
 print(timeit.timeit("my_revers(30)", "from __main__ import my_revers", number=1000))
 
 """
-0.0035218000000000003 - revers
-
-0.002515200000000002 - revers_2
-
-0.0020464000000000003 - revers_3
-
-0.00024180000000000035 - my_revers
-
-Вывод: быстрее всех судя по цифрам мой способ с применением ф-ции reversed, на втором месте: срез,
+0.0003620000000000012 - revers
+0.0002731999999999995 - revers_2
+0.0002136000000000013 - revers_3
+0.00023899999999999963- my_revers
+Вывод: быстрее всех судя по цифрам срез, на втором месте: моя ф-ция,
 на третьем: цикл while, ну и самый медленный это рекурсия(если я не ошибся на счёт метода),
 потому что есть базовый случай(если введён ноль) и шаг рекурсии(если введено другое число).
-1) ф-ция reversed
-2) срез
+1) срез
+2) моя ф-ция
 3) цикл while
 4) рекурсия
 """
