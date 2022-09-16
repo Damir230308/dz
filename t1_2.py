@@ -22,11 +22,11 @@
 генераторы, numpy, использование слотов, применение del, сериализация и т.д.
 Это файл для второго скрипта
 """
+from memory_profiler import profile
+import cProfile
 
-import random
-import timeit
 my_list = ['в', '5', 'часов', '17', 'минут', 'температура', 'воздуха', 'была', '+5', 'градусов']
-
+@profile
 def wrapper():
     def lst(my_list):
         for _ in range(len(my_list)):
@@ -35,12 +35,11 @@ def wrapper():
 
             if element.isdigit():
                 my_list.extend(['"', '{:02}'.format(int(element)), '"'])
-
             elif element[0] == '+' and element[1].isdigit():
                 my_list.extend(['"', '{:02}'.format(int(element)), '"'])
-
             else:
                 my_list.append(element)
+@profile
 def lst1(my_list):
     for _ in range(len(my_list)):
 
@@ -58,17 +57,51 @@ def lst1(my_list):
 # print(' '.join(my_list))
 # print(' '.join(my_list))
 
-print(timeit.timeit('wrapper', 'from __main__ import wrapper', number=100000))
-print(timeit.timeit('lst1', 'from __main__ import lst1', number=100000))
+cProfile.run(lst1(my_list))
+cProfile.run(wrapper())
 
 """
 Замеры:
 ---------------------------------------------------------------------------------------------------------
-0.0008856999999999997 - оптимизированный код
+неоптимизированный код:
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    42     19.6 MiB     19.6 MiB           1   @profile
+    43                                         def lst1(my_list):
+    44     19.6 MiB      0.0 MiB          11       for _ in range(len(my_list)):
+    45                                         
+    46     19.6 MiB      0.0 MiB          10           element = my_list.pop(0)
+    47                                         
+    48     19.6 MiB      0.0 MiB          10           if element.isdigit():
+    49     19.6 MiB      0.0 MiB           2               my_list.extend(['"', '{:02}'.format(int(element)), '"'])
+    50                                         
+    51     19.6 MiB      0.0 MiB           8           elif element[0] == '+' and element[1].isdigit():
+    52     19.6 MiB      0.0 MiB           1               my_list.extend(['"', '{:02}'.format(int(element)), '"'])
+    53                                         
+    54                                                 else:
+    55     19.6 MiB      0.0 MiB           7               my_list.append(element)
 ---------------------------------------------------------------------------------------------------------
-0.0008867000000000024 - неоптимизированный код
+оптимизированный код:
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    29     19.5 MiB     19.5 MiB           1   @profile
+    30                                         def wrapper():
+    31     19.5 MiB      0.0 MiB           1       def lst(my_list):
+    32                                                 for _ in range(len(my_list)):
+    33                                         
+    34                                                     element = my_list.pop(0)
+    35                                         
+    36                                                     if element.isdigit():
+    37                                                         my_list.extend(['"', '{:02}'.format(int(element)), '"'])
+    38                                                     elif element[0] == '+' and element[1].isdigit():
+    39                                                         my_list.extend(['"', '{:02}'.format(int(element)), '"'])
+    40                                                     else:
+    41                                                         my_list.append(element)
 ---------------------------------------------------------------------------------------------------------
+По моему личному мнению мне кажется что вполне удалось оптимизировать мой код, потому в оптимизированном коде,
+мы замеряем внешнюю ф-цию, а знаычит тратится меньше памяти. В слечае с неоптимизированным кодом мытратим память на
+операции внутренней ф-ции, если посмотреть на отчёты профайлера, то увидим куда и сколько выделяется памяти.
+Сугубо моё мнение если что-то не так напишите комментарий, учту его.
 
-Что было сделано для оптимизации: Я решил обернуть ф-цию lst другой ф-цией wrapper,
-и результаты стали лучше.
+Что было сделано: Для того чтобы уменьшить расходы я лишь обернул ф-цию ф-цей. 
 """
